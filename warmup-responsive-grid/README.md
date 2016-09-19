@@ -4,7 +4,7 @@ Create a mobile, tablet and desktop version of these mockups.
 Make sure to use  `@media-query` with `min-widths`
 
 ###Mobile ( < 768px )
-![mobile](./mockups/warmup-grid-mobile-2.png)
+![mobile](./mockups/warmup-grid-mobile.png)
 
 
 ###Tablet ( 768 - 1024px )
