@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title></title>
+      <link rel="stylesheet" href="./skeleton.css">
+   </head>
+   <body>
+      <div class="container">
+         <h5><code>(1)</code></h5>
+         <!-- (1) -->
+         <h1 class="title"><!-- Inserted Here by JS --></h1>
+         <hr/>
+
+
+         <h5><code>(2)</code></h5>
+         <!-- (2) -->
+         <ul>
+
+         </ul>
+
+         <hr/>
+         <h5><code>(3)</code></h5>
+         <!-- (3) -->
+         <p>Is this sentence long?</p>
+         <h6><strong> <!-- inserted based on if/else --> </strong></h6>
+
+         <!-- (4) -->
+         <hr/>
+         <h5><code>(3)</code></h5>
+         <button>Don't Push Me</button>
+         <!-- Something happens when pushing a button -->
+      </div>
+
+   </body>
+   <script>
+
+      // ======================
+      // (1) JS Example Use Case 1 : HTML (DOM) Manipulation
+      var theTitleEl = document.querySelector('h1.title')
+      theTitleEl.innerHTML = "Welcome to Javacsript"
+
+
+      // ======================
+      // (2) JS+HTML Example : Creating a List of HTML Elements
+      var ulElement = document.querySelector('ul')
+      var friendsList = [
+         "Bill",
+         "Will",
+         "Jill",
+         "Phil",
+         "Hill"
+      ]
+
+      for (var i = 0; i < friendsList.length; i++ ){
+         ulElement.innerHTML += '<li>' + friendsList[i] + '</li>'
+      }
+
+
+      // ======================
+      // (3) JS+HTML Example : Conditional HTML on Screen
+      var pTagEl = document.querySelector('p')
+      var h6El = document.querySelector('h6')
+
+      if (pTagEl.textContent.length > 40){
+         h6El.innerHTML = "Of course it is!"
+      } else {
+         h6El.innerHTML = "Nope!"
+      }
+
+
+      // ======================
+      // (4)  JS+HTML Example : Event Listening + Event Handling
+      var btnEl = document.querySelector('button')
+      var containerEl = document.querySelector('div.container')
+
+      btnEl.addEventListener('click', function(){
+         containerEl.innerHTML = '<h2><mark>I warned you<br> I warned you</br> I warned you</mark></h2>'
+      })
+
+   </script>
+</html>
