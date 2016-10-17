@@ -7,39 +7,47 @@ var forEach = function(arr, cb){
 }
 
 
-var loveCountEl = document.querySelector('.love-count')
-var congressPersonsEl = document.querySelector('.congress-persons')
 
 var showHomeScreen = function(stateInput){
 
-   if(typeof stateInput === 'undefined'){
-      var stateVal = 'TX'
+   if(typeof stateInput === 'null'){
+      var theState = 'TX'
    } else {
-      var stateVal = stateInput
+      var theState = stateInput
    }
 
-   $.getJSON("http://capitolwords.org/api/1/phrases/state.json?phrase=love&apikey=7ba96d266cc84b168fab4d878d9aa141&callback=?&state=" + stateVal)
-      .then(function(d){
-         var loveCount = d.results[0].count,
-             state = d.results[0].state
+   fetchAndRenderStateLegs(theState)
+   fetchAndRenderStateLoves(theState)
+}
 
-         forEach(d.results, function(r){
-            console.log()
-            loveCount += r.count
+function fetchAndRenderStateLoves(stateVal){
+   $.getJSON("http://capitolwords.org/api/1/dates.json?callback=?&phrase=love&percentages=true&granularity=year&apikey=7ba96d266cc84b168fab4d878d9aa141&state="+stateVal)
+      .then(function(d){
+         console.log(d)
+
+         var leftColHTMLStr = '<h2 class="bg-danger">Annual <span class="text-danger">Love</span> Count in <u>' + stateVal + '</u></h2>'
+
+
+         forEach(d.results, function(yrPeriod){
+             leftColHTMLStr  += "<h4>" + yrPeriod.year + "---- <span class='text-danger'>" + yrPeriod.count +"</span></h4>"
+             leftColHTMLStr  += "<p class='text-danger'>"
+             for(var i = 0; i < yrPeriod.count; i++){
+                leftColHTMLStr += "<i class='fa fa-2x fa-heart'></i> "
+             }
+             leftColHTMLStr  += "<br/><br/></p>"
          })
 
-         var leftColHTMLStr = '<h2 class="bg-danger">Love Count</h2>'
-             leftColHTMLStr += '<h3 class="bg-warning">'+ state +'</h3>'
-             leftColHTMLStr += '<h4>' + loveCount + '</h4>'
+
 
          loveCountEl.innerHTML = leftColHTMLStr
 
       })
+}
 
+function fetchAndRenderStateLegs(stateVal){
    $.getJSON("https://congress.api.sunlightfoundation.com/legislators?apikey=7ba96d266cc84b168fab4d878d9aa141&state="+stateVal)
          .then(function(serverRes){
             var rightColHTMLStr = '<h2 class="bg-success">Legislators</h2>'
-
             forEach(serverRes.results, function(result){
                console.log(result)
                rightColHTMLStr +='<div class="media">'
@@ -57,8 +65,19 @@ var showHomeScreen = function(stateInput){
                congressPersonsEl.innerHTML = rightColHTMLStr
             })
 
-
-
 }
 
+var loveCountEl = document.querySelector('.love-count')
+var congressPersonsEl = document.querySelector('.congress-persons')
+
+
+window.addEventListener('hashchange', function(){
+   console.log('helllooooooo!!!')
+})
+
 showHomeScreen('SC')
+window.addEventListener('hashchange', function(){
+   var hashValue = window.location.hash.slice(1)
+   showHomeScreen( hashValue.toUpperCase() )
+
+})
